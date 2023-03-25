@@ -1,12 +1,12 @@
 #pragma once
 
 #include <atlstr.h>
+#include <iostream>
 #include <psapi.h>
 #include <stdio.h>
+#include <string>
 #include <tchar.h>
 #include <windows.h>
-#include <iostream>
-#include <string>
 
 void killProcess(const std::string &processName)
 {
@@ -33,8 +33,7 @@ void killProcess(const std::string &processName)
             CHAR szProcessName[MAX_PATH];
 
             // Get a handle to the process.
-            HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
-                                          FALSE, processID);
+            HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processID);
 
             // Get the process name.
             if (NULL != hProcess)
@@ -44,8 +43,7 @@ void killProcess(const std::string &processName)
 
                 if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded))
                 {
-                    GetModuleBaseNameA(hProcess, hMod, szProcessName,
-                                       sizeof(szProcessName) / sizeof(TCHAR));
+                    GetModuleBaseNameA(hProcess, hMod, szProcessName, sizeof(szProcessName) / sizeof(TCHAR));
                 }
             }
 

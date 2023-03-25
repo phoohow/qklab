@@ -29,7 +29,7 @@ def createProject(proj, cmakeFile, fileHead, fileCpp, mainCpp):
 
     # Create folder if not exist
     if not os.path.exists(proj):
-        os.mkdir(proj)
+        os.mkdir("src/" + proj)
 
     # Create .h file
     if not os.path.exists(fileHead):
@@ -67,7 +67,7 @@ def createProject(proj, cmakeFile, fileHead, fileCpp, mainCpp):
         logging.warning("main.cpp exist!")
 
     # Create cmake config
-    addProj = "AddProject(" + proj + ")"
+    addProj = "addProject(" + proj + ")"
     isFound = False
     with open(cmakeFile) as ff:
         if addProj in ff.read():
@@ -83,14 +83,14 @@ def removeProject(proj, cmakeFile):
     # Process exception
 
     # Remove project directory
-    if os.path.exists(rootDir + "\\" + proj):
-        shutil.rmtree(rootDir + "\\" + proj)
+    if os.path.exists(rootDir + "\\src\\" + proj):
+        shutil.rmtree(rootDir + "\\src\\" + proj)
     else:
         logging.warning("Project " + proj + " not exist\n")
         pass
 
     # Remove project cmake config
-    addProj = "AddProject(" + proj + ")"
+    addProj = "addProject(" + proj + ")"
     f = open(cmakeFile, "r")
     fileContext = ""
     for token in f:
@@ -109,28 +109,28 @@ def renameProject(oldProj, newProj, cmakeFile):
     # Process exception(last arg)
 
     # Check old project exist or not
-    if not os.path.exists(rootDir + "\\" + oldProj):
+    if not os.path.exists(rootDir + "\\src\\" + oldProj):
         logging.error("Project " + oldProj + " not exist. Check your input\n")
         exit()
 
     # Rename project name
-    os.rename(rootDir + "\\" + oldProj, rootDir + "\\" + newProj)
+    os.rename(rootDir + "\\src\\" + oldProj, rootDir + "\\src\\" + newProj)
 
     # Rename default .h file
-    if os.path.exists(rootDir + "\\" + newProj + "\\" + oldProj + ".h"):
+    if os.path.exists(rootDir + "\\src\\" + newProj + "\\" + oldProj + ".h"):
         os.rename(
-            rootDir + "\\" + newProj + "\\" + oldProj + ".h",
-            rootDir + "\\" + newProj + "\\" + newProj + ".h",
+            rootDir + "\\src\\" + newProj + "\\" + oldProj + ".h",
+            rootDir + "\\src\\" + newProj + "\\" + newProj + ".h",
         )
     else:
-        f = open(rootDir + "\\" + newProj + "\\" + newProj + ".h", "w")
+        f = open(rootDir + "\\src\\" + newProj + "\\" + newProj + ".h", "w")
         f.write("#pragma once\n")
         f.close()
 
     oldIncludeHead = '#include "' + oldProj + '.h"\n'
     newIncludeHead = '#include "' + newProj + '.h"\n'
     # Replace default head file in .cpp file
-    for filePath, dirName, fileNames in os.walk(rootDir + "\\" + newProj):
+    for filePath, dirName, fileNames in os.walk(rootDir + "\\src\\" + newProj):
         for fileName in fileNames:
             if ".cpp" in fileName:
                 f = open(filePath + "\\" + fileName, "r")
@@ -146,8 +146,8 @@ def renameProject(oldProj, newProj, cmakeFile):
                 ff.close()
 
     # Replace cmake config name
-    oldAddProj = "AddProject(" + oldProj + ")"
-    newAddProj = "AddProject(" + newProj + ")"
+    oldAddProj = "addProject(" + oldProj + ")"
+    newAddProj = "addProject(" + newProj + ")"
     f = open(cmakeFile, "r")
     fileContext = ""
     for token in f:
@@ -169,16 +169,16 @@ if len(sys.argv) == 2:
     # Create project
     proj = sys.argv[1]
     cmakeFile = rootDir + "\\CMakeLists.txt"
-    fileHead = rootDir + "\\" + proj + "\\" + proj + ".h"
-    fileCpp = rootDir + "\\" + proj + "\\" + proj + ".cpp"
-    mainCpp = rootDir + "\\" + proj + "\\main.cpp"
+    fileHead = rootDir + "\\src\\" + proj + "\\" + proj + ".h"
+    fileCpp = rootDir + "\\src\\" + proj + "\\" + proj + ".cpp"
+    mainCpp = rootDir + "\\src\\" + proj + "\\main.cpp"
     createProject(proj, cmakeFile, fileHead, fileCpp, mainCpp)
 elif len(sys.argv) == 3:
     proj = sys.argv[2]
     cmakeFile = rootDir + "\\CMakeLists.txt"
-    fileHead = rootDir + "\\" + proj + "\\" + proj + ".h"
-    fileCpp = rootDir + "\\" + proj + "\\" + proj + ".cpp"
-    mainCpp = rootDir + "\\" + proj + "\\main.cpp"
+    fileHead = rootDir + "\\src\\" + proj + "\\" + proj + ".h"
+    fileCpp = rootDir + "\\src\\" + proj + "\\" + proj + ".cpp"
+    mainCpp = rootDir + "\\src\\" + proj + "\\main.cpp"
 
     # Create project
     if sys.argv[1] == "--add" or sys.argv[1] == "-a":

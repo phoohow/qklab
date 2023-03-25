@@ -1,0 +1,11 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#43261D",
+        "titleBar.activeBackground": "#5E3528",
+        "titleBar.activeForeground": "#FCF9F9"
+    },
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "cmath": "cpp"
+    }
+}
