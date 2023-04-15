@@ -46,3 +46,10 @@ add_subdirectory(3rd_party/SDL2)
 addproject(Lsdl2)
 target_include_directories(Lsdl2 PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/3rd_party/SDL2/include)
 target_link_libraries(Lsdl2 SDL2main SDL2-static)
+
+# Add eigen3 library
+# Use vcpkg to install eigen3
+set(Eigen3_DIR $ENV{VCPKG_DIR}/installed/x64-windows/share/eigen3)
+find_package(Eigen3 CONFIG REQUIRED)
+addProject(LEigen3)
+target_link_libraries(LEigen3 Eigen3::Eigen)
