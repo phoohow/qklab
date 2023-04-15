@@ -29,3 +29,12 @@ include_directories(benchmark/include)
 addproject(Lopencv)
 target_link_libraries(Lopencv ${OpenCV_LIBS})
 target_link_libraries(Lopencv benchmark::benchmark)
+
+# Add zlib library
+add_subdirectory(3rd_party/zlib)
+include_directories(3rd_party/zlib)
+# Add file for zlib library to build, otherwise it will not build
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/3rd_party/zlib)
+
+addProject(Lzlib)
+target_link_libraries(Lzlib zlibstatic)
