@@ -36,5 +36,13 @@ include_directories(3rd_party/zlib)
 # Add file for zlib library to build, otherwise it will not build
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/3rd_party/zlib)
 
-addProject(Lzlib)
+addproject(Lzlib)
 target_link_libraries(Lzlib zlibstatic)
+
+# Add sdl2 library
+set(SDL_SHARED_ENABLED_BY_DEFAULT OFF)
+add_subdirectory(3rd_party/SDL2)
+
+addproject(Lsdl2)
+target_include_directories(Lsdl2 PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/3rd_party/SDL2/include)
+target_link_libraries(Lsdl2 SDL2main SDL2-static)
