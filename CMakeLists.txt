@@ -30,4 +30,7 @@ find_package(imgui CONFIG REQUIRED)
 find_package(SFML CONFIG REQUIRED COMPONENTS graphics system window)
 find_package(ImGui-SFML CONFIG REQUIRED)
 
+# Add Qt6 library with vcpkg
+find_package(Qt6 COMPONENTS Core Widgets REQUIRED)
+
 add_subdirectory(src)
