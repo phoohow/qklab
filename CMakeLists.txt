@@ -49,22 +49,14 @@ target_include_directories(
 target_link_libraries(Lsdl2 SDL2main SDL2-static)
 
 # Add eigen3 library Use vcpkg to install eigen3
-set(Eigen3_DIR $ENV{VCPKG_DIR}/installed/x64-windows/share/eigen3)
 find_package(Eigen3 CONFIG REQUIRED)
 addproject(LEigen3)
 target_link_libraries(LEigen3 Eigen3::Eigen)
 
-# Add glfw3 library Use vcpkg to install glfw3
-set(glfw3_DIR $ENV{VCPKG_DIR}/installed/x64-windows/share/glfw3)
+# Add glfw3, imgui, sfml and ImGui-SFML library With vcpkg
 find_package(glfw3 CONFIG REQUIRED)
-# Add imgui library Use vcpkg to install imgui
-set(imgui_DIR $ENV{VCPKG_DIR}/installed/x64-windows/share/imgui)
 find_package(imgui CONFIG REQUIRED)
-# Add sfml library Use vcpkg to install sfml
-set(SFML_DIR $ENV{VCPKG_DIR}/installed/x64-windows/share/SFML)
 find_package(SFML CONFIG REQUIRED COMPONENTS graphics system window)
-# Add ImGui-SFML library Use vcpkg to install ImGui-SFML
-set(ImGui-SFML_DIR $ENV{VCPKG_DIR}/installed/x64-windows/share/ImGui-SFML)
 find_package(ImGui-SFML CONFIG REQUIRED)
 
 addproject(Limgui)
