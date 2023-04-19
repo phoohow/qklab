@@ -4,6 +4,3 @@
 [submodule "3rd_party/benchmark"]
 	path = 3rd_party/benchmark
 	url = https://github.com/google/benchmark.git
-[submodule "3rd_party/SDL2"]
-	path = 3rd_party/SDL2
-	url = https://github.com/libsdl-org/SDL.git

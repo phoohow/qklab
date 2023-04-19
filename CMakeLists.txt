@@ -32,18 +32,13 @@ target_link_libraries(Lopencv benchmark::benchmark)
 
 # Add zlib library with vcpkg
 find_package(ZLIB REQUIRED)
-
 addproject(Lzlib)
 target_link_libraries(Lzlib ZLIB::ZLIB)
 
-# Add sdl2 library
-set(SDL_SHARED_ENABLED_BY_DEFAULT OFF)
-add_subdirectory(3rd_party/SDL2)
-
+# Add sdl2 library with vcpkg
+find_package(SDL2 CONFIG REQUIRED)
 addproject(Lsdl2)
-target_include_directories(
-    Lsdl2 PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/3rd_party/SDL2/include)
-target_link_libraries(Lsdl2 SDL2main SDL2-static)
+target_link_libraries(Lsdl2 SDL2::SDL2main SDL2::SDL2)
 
 # Add eigen3 library with vcpkg
 find_package(Eigen3 CONFIG REQUIRED)
