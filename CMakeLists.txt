@@ -9,9 +9,11 @@ function(addProject proj)
 endfunction(addProject proj)
 
 addproject(Ltemplate)
-addproject(TwinTaskKill)
-addproject(TqueryWindowsGraphicDriver)
-target_link_libraries(TqueryWindowsGraphicDriver ole32)
+if(WIN32)
+    addproject(TwinTaskKill)
+    addproject(TqueryWindowsGraphicDriver)
+    target_link_libraries(TqueryWindowsGraphicDriver ole32)
+endif()
 
 # Add OpenCV library
 find_package(OpenCV REQUIRED)
