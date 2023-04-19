@@ -30,14 +30,11 @@ addproject(Lopencv)
 target_link_libraries(Lopencv ${OpenCV_LIBS})
 target_link_libraries(Lopencv benchmark::benchmark)
 
-# Add zlib library
-add_subdirectory(3rd_party/zlib)
-include_directories(3rd_party/zlib)
-# Add file for zlib library to build, otherwise it will not build
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/3rd_party/zlib)
+# Add zlib library with vcpkg
+find_package(ZLIB REQUIRED)
 
 addproject(Lzlib)
-target_link_libraries(Lzlib zlibstatic)
+target_link_libraries(Lzlib ZLIB::ZLIB)
 
 # Add sdl2 library
 set(SDL_SHARED_ENABLED_BY_DEFAULT OFF)
@@ -48,12 +45,12 @@ target_include_directories(
     Lsdl2 PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/3rd_party/SDL2/include)
 target_link_libraries(Lsdl2 SDL2main SDL2-static)
 
-# Add eigen3 library Use vcpkg to install eigen3
+# Add eigen3 library with vcpkg
 find_package(Eigen3 CONFIG REQUIRED)
 addproject(LEigen3)
 target_link_libraries(LEigen3 Eigen3::Eigen)
 
-# Add glfw3, imgui, sfml and ImGui-SFML library With vcpkg
+# Add glfw3, imgui, sfml and ImGui-SFML library with vcpkg
 find_package(glfw3 CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 find_package(SFML CONFIG REQUIRED COMPONENTS graphics system window)
