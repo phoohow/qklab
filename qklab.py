@@ -27,11 +27,11 @@ def printHelp():
 def createProject(proj, cmakeFile, fileHead, fileCpp, mainCpp):
     # Process exception
 
-    # Create folder if not exist
+    # 0. Create folder if not exist
     if not os.path.exists(proj):
         os.mkdir("src/" + proj)
 
-    # Create .h file
+    # 1. Create .h file
     if not os.path.exists(fileHead):
         f = open(fileHead, "w")
         f.write("#pragma once\n")
@@ -49,7 +49,7 @@ def createProject(proj, cmakeFile, fileHead, fileCpp, mainCpp):
     # else:
     #     logging.warning(fileCpp + " exist!")
 
-    # Create main.cpp file
+    # 2. Create main.cpp file
     mainContext = (
         includeHead
         + "#include <iostream>\n"
@@ -66,7 +66,7 @@ def createProject(proj, cmakeFile, fileHead, fileCpp, mainCpp):
     else:
         logging.warning("main.cpp exist!")
 
-    # Create cmake config
+    # 3. Create cmake config
     addProj = "addProject(" + proj + ")"
     isFound = False
     with open(cmakeFile) as ff:
@@ -82,14 +82,14 @@ def createProject(proj, cmakeFile, fileHead, fileCpp, mainCpp):
 def removeProject(proj, cmakeFile):
     # Process exception
 
-    # Remove project directory
+    # 0. Remove project directory
     if os.path.exists(rootDir + "\\src\\" + proj):
         shutil.rmtree(rootDir + "\\src\\" + proj)
     else:
         logging.warning("Project " + proj + " not exist\n")
         pass
 
-    # Remove project cmake config
+    # 1. Remove project cmake config
     addProj = "addProject(" + proj + ")"
     f = open(cmakeFile, "r")
     fileContext = ""
@@ -108,15 +108,15 @@ def renameProject(oldProj, newProj, cmakeFile):
     # TODO
     # Process exception(last arg)
 
-    # Check old project exist or not
+    # 0. Check old project exist or not
     if not os.path.exists(rootDir + "\\src\\" + oldProj):
         logging.error("Project " + oldProj + " not exist. Check your input\n")
         exit()
 
-    # Rename project name
+    # 1. Rename project name
     os.rename(rootDir + "\\src\\" + oldProj, rootDir + "\\src\\" + newProj)
 
-    # Rename default .h file
+    # 2. Rename default .h file
     if os.path.exists(rootDir + "\\src\\" + newProj + "\\" + oldProj + ".h"):
         os.rename(
             rootDir + "\\src\\" + newProj + "\\" + oldProj + ".h",
@@ -129,7 +129,7 @@ def renameProject(oldProj, newProj, cmakeFile):
 
     oldIncludeHead = '#include "' + oldProj + '.h"\n'
     newIncludeHead = '#include "' + newProj + '.h"\n'
-    # Replace default head file in .cpp file
+    # 3. Replace default head file in .cpp file
     for filePath, dirName, fileNames in os.walk(rootDir + "\\src\\" + newProj):
         for fileName in fileNames:
             if ".cpp" in fileName:
@@ -145,7 +145,7 @@ def renameProject(oldProj, newProj, cmakeFile):
                 ff.write(fileContext)
                 ff.close()
 
-    # Replace cmake config name
+    # 4. Replace cmake config name
     oldAddProj = "addProject(" + oldProj + ")"
     newAddProj = "addProject(" + newProj + ")"
     f = open(cmakeFile, "r")
@@ -168,14 +168,14 @@ if len(sys.argv) == 2:
 
     # Create project
     proj = sys.argv[1]
-    cmakeFile = rootDir + "\\CMakeLists.txt"
+    cmakeFile = rootDir + "\\src\\CMakeLists.txt"
     fileHead = rootDir + "\\src\\" + proj + "\\" + proj + ".h"
     fileCpp = rootDir + "\\src\\" + proj + "\\" + proj + ".cpp"
     mainCpp = rootDir + "\\src\\" + proj + "\\main.cpp"
     createProject(proj, cmakeFile, fileHead, fileCpp, mainCpp)
 elif len(sys.argv) == 3:
     proj = sys.argv[2]
-    cmakeFile = rootDir + "\\CMakeLists.txt"
+    cmakeFile = rootDir + "\\src\\CMakeLists.txt"
     fileHead = rootDir + "\\src\\" + proj + "\\" + proj + ".h"
     fileCpp = rootDir + "\\src\\" + proj + "\\" + proj + ".cpp"
     mainCpp = rootDir + "\\src\\" + proj + "\\main.cpp"
@@ -195,7 +195,7 @@ elif len(sys.argv) == 3:
 elif len(sys.argv) == 4:
     oldProj = sys.argv[2]
     newProj = sys.argv[3]
-    cmakeFile = rootDir + "\\CMakeLists.txt"
+    cmakeFile = rootDir + "\\src\\CMakeLists.txt"
     if sys.argv[1] == "--rename" or sys.argv[1] == "-r":
         renameProject(oldProj, newProj, cmakeFile)
     else:
