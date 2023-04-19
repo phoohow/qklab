@@ -15,20 +15,15 @@ target_link_libraries(TqueryWindowsGraphicDriver ole32)
 
 # Add OpenCV library
 find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
-
 addproject(LprojectionPlane)
 target_link_libraries(LprojectionPlane ${OpenCV_LIBS})
 
-# Add GoogleTest library
-add_subdirectory(3rd_party/googletest)
-# Add GoogleBenchmark library
-add_subdirectory(3rd_party/benchmark)
-include_directories(benchmark/include)
+# Add GoogleTest and GoogleBenchmark library with vcpkg
+find_package(GTest CONFIG REQUIRED)
+find_package(benchmark CONFIG REQUIRED)
 
 addproject(Lopencv)
-target_link_libraries(Lopencv ${OpenCV_LIBS})
-target_link_libraries(Lopencv benchmark::benchmark)
+target_link_libraries(Lopencv ${OpenCV_LIBS} benchmark::benchmark)
 
 # Add zlib library with vcpkg
 find_package(ZLIB REQUIRED)
